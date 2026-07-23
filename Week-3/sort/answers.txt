@@ -1,0 +1,11 @@
+sort1 uses: Bubble Sort
+
+How do you know?: I timed sort1 on sorted10000.txt, reversed10000.txt, and random10000.txt. It ran in 0.092s on the sorted file, but took 0.288s on the reversed file and 0.209s on the random file. This large difference between the sorted (best case) and reversed (worst case) times matches bubble sort's behavior: with an already-sorted list, bubble sort only needs one pass to confirm no swaps are needed (O(n)), but with a reversed list every element has to be swapped all the way to its correct position (O(n^2)). No other algorithm shows this dramatic a gap between sorted and reversed input.
+
+sort2 uses: Merge Sort
+
+How do you know?: sort2 ran in almost the same time regardless of input order: 0.077s on sorted, 0.072s on reversed, and 0.069s on random. It was also the fastest of all three programs on every input type. This matches merge sort, since its O(n log n) time complexity doesn't depend on the initial order of the list, and it scales much better than the O(n^2) algorithms as n grows large.
+
+sort3 uses: Selection Sort
+
+How do you know?: sort3 also ran in roughly the same time regardless of input order (0.140s sorted, 0.154s reversed, 0.138s random), showing that, like sort2, it isn't affected by how the list starts out. However, sort3 was consistently slower than sort2 across all three files. This matches selection sort: it always scans the entire remaining unsorted portion of the list to find the minimum value on every pass, regardless of the list's order, giving it O(n^2) time complexity, which is slower than merge sort's O(n log n) at this size.
