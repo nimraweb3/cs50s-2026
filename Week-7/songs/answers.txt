@@ -1,0 +1,13 @@
+1. If songs.db contains the top 100 songs of one listener from 2018, how would you characterize their audio aura?
+
+I looked at the average energy, valence, and danceability of the 100 songs. The energy was high but the valence was kind of in the middle. That means this person liked fast, danceable songs, but the songs were not always super happy. So maybe this listener liked hype music more than happy music. It sounds like someone who listens to a lot of workout songs or pump-up music.
+
+2. Hypothesize about why the way you've calculated this aura might not be very representative of the listener. What better ways of calculating this aura would you propose?
+
+Averaging all 100 songs into one number is not really fair. Say the person listened to 50 really sad songs and 50 really happy songs. The average would just say "medium," but that is not true at all. The person was actually very sad sometimes and very happy other times, not medium all the time.
+
+Also, this does not show when they listened to the songs. Maybe they were sad in January and happy in December. The average mixes all of that together and hides the real story.
+
+It also treats every song the same, even if they played one song 100 times and another song just once. The song they loved the most should count more.
+
+A better way would be to group the songs by mood instead of averaging them, so you can see if someone had a sad phase and a happy phase. It would also help to look at the songs month by month, and to count how many times each song was played so favorite songs count more.
