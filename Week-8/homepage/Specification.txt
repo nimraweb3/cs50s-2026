@@ -1,0 +1,27 @@
+HTML tags used (besides html, head, body, title):
+1. nav
+2. ul
+3. li
+4. a
+5. header
+6. section
+7. button
+8. form
+9. label
+10. footer
+
+CSS properties used (styles.css):
+1. background-color
+2. color
+3. font-family
+4. padding
+5. transform
+
+JavaScript: I used JavaScript to make the homepage's "What do I build?" button reveal a
+hidden message, to auto-update the footer's copyright year on every page, and to
+validate and handle the contact form submission with a success alert instead of a
+page reload.
+
+Bootstrap: I used Bootstrap's navbar component (with a responsive collapsible menu),
+card component for the projects grid, accordion component on the about page, and
+form styling classes on the contact page.
