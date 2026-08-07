@@ -17,7 +17,7 @@ router.get("/", (_req: Request, res: Response) => {
         GROUP BY s.name
         ORDER BY missing_count DESC`
     )
-    .all() as DashboardRow[];
+    .all() as unknown as DashboardRow[];
 
   const totals = db.prepare(`SELECT COUNT(*) AS total FROM applications`).get() as {
     total: number;

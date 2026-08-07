@@ -16,7 +16,9 @@ The two halves communicate entirely through a small JSON API under `/api`. Durin
 
 ## Why SQLite with raw SQL, not an ORM
 
-I used `better-sqlite3` directly rather than an ORM like Prisma or TypeORM. This was a deliberate choice: an ORM would have hidden the actual SQL behind generated code, and the querying skill from CS50's SQL week is exactly what I wanted this project to demonstrate. Every query in `server/src/routes/` is hand-written SQL, including the dashboard's aggregate query, which is the most interesting one in the project:
+I use SQLite directly via Node's built-in `node:sqlite` module (stable as of Node 22.5+), rather than an ORM like Prisma or TypeORM, and rather than a third-party driver package. Two reasons: an ORM would have hidden the actual SQL behind generated code, and the querying skill from CS50's SQL week is exactly what I wanted this project to demonstrate — every query in `server/src/routes/` is hand-written SQL. Using the built-in module instead of `better-sqlite3` also means no native code ever needs to compile on install — `better-sqlite3` requires a C++ toolchain (Visual Studio Build Tools on Windows) to build from source when no prebuilt binary matches your platform/Node version, which is exactly the kind of setup friction a grader running `submit50` shouldn't have to deal with. `node:sqlite` ships with Node itself, so `npm install` never touches a compiler.
+
+The dashboard's aggregate query is the most interesting one in the project:
 
 ```sql
 SELECT s.name, COUNT(*) AS missing_count
@@ -53,7 +55,7 @@ The Express server exposes REST-style JSON endpoints under `/api` for applicatio
 
 ## Running it
 
-From the project root: `npm run install:all` once, then `npm run dev`, which starts the Express server on port 4000 and the Vite dev server on port 5173 together. Open `http://localhost:5173`. The SQLite database file is created automatically on first run, with the skills table pre-seeded — no manual setup required.
+Requires Node.js 22.5 or newer (for `node:sqlite`). From the project root: `npm run install:all` once, then `npm run dev`, which starts the Express server on port 4000 and the Vite dev server on port 5173 together. Open `http://localhost:5173`. The SQLite database file is created automatically on first run, with the skills table pre-seeded — no manual setup required. You may see a one-line "SQLite is an experimental feature" warning in the server log; that's expected and harmless, it doesn't affect functionality.
 
 ## What I'd add next
 

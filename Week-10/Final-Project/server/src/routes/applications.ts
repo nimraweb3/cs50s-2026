@@ -19,7 +19,7 @@ router.get("/", (_req: Request, res: Response) => {
          FROM applications a
         ORDER BY a.date_applied DESC, a.id DESC`
     )
-    .all() as ApplicationWithGap[];
+    .all() as unknown as ApplicationWithGap[];
   res.json(rows);
 });
 
@@ -42,13 +42,19 @@ router.post("/", (req: Request, res: Response) => {
   const linkSkill = db.prepare(
     `INSERT OR IGNORE INTO application_skills (application_id, skill_id) VALUES (?, ?)`
   );
-  const linkAll = db.transaction((skillNames: string[]) => {
-    for (const name of skillNames) {
+  // node:sqlite has no db.transaction() helper (that's a better-sqlite3-only
+  // convenience), so wrap the batch insert in an explicit transaction.
+  db.exec("BEGIN");
+  try {
+    for (const name of required) {
       const row = findSkillId.get(name) as { id: number } | undefined;
       if (row) linkSkill.run(applicationId, row.id);
     }
-  });
-  linkAll([...required]);
+    db.exec("COMMIT");
+  } catch (err) {
+    db.exec("ROLLBACK");
+    throw err;
+  }
 
   const ownedRows = db
     .prepare(
