@@ -1,8 +1,6 @@
 # Trade Performance Analyzer
 
-![Project banner](https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=dark%20trading%20terminal%20dashboard%20with%20equity%20curve%20chart%20gold%20accents%20minimal%20clean&image_size=landscape_16_9)
 
-> Turn messy MT5 / cTrader / Binance / TradingView trade exports into one beautiful, shareable HTML report — with one command.
 
 [![YouTube Demo](https://img.shields.io/badge/YouTube-Demo-red?logo=youtube&logoColor=white&style=for-the-badge)](#video-demo)
 [![Quickstart](https://img.shields.io/badge/%E2%9A%A1-Quickstart-10b981?style=for-the-badge)](#quickstart)
@@ -46,7 +44,7 @@
 
 ## What problem it solves
 
-Most traders have a folder full of raw CSV or HTML exports, plus a bunch of hand-maintained spreadsheets that go stale within a week. To answer even basic questions — _“What's my actual win rate after fees?”_, _“Which sessions really work for me?”_, _“Is setup A really worth the effort?”_ — you end up copy-pasting columns, reformatting timestamps, and second-guessing the math every time.
+Most traders have a folder full of raw CSV or HTML exports, plus a bunch of hand-maintained spreadsheets that go stale within a week. To answer even basic questions  _“What's my actual win rate after fees?”_, _“Which sessions really work for me?”_, _“Is setup A really worth the effort?”_ — you end up copy-pasting columns, reformatting timestamps, and second-guessing the math every time.
 
 **Trade Performance Analyzer** takes that raw export and turns it into a polished, browser-ready report in a single command. Zero spreadsheets, zero manual formulas, zero internet required once the report is generated.
 
@@ -111,21 +109,6 @@ python analyzer.py `
   --output "C:\Trading\Reports\August.html" `
   --no-open
 ```
-
----
-
-## Example reports you'll get
-
-**📊 Equity curve, win rate, and monthly performance**
-
-![Equity and stats dashboard](https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=trading%20dashboard%20dark%20equity%20curve%20line%20chart%20gold%20winrate%20bar%20chart%20clean%20UI&image_size=landscape_16_9)
-![Performance summary cards](https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=dark%20KPI%20cards%20showing%20win%20rate%20profit%20factor%20max%20drawdown%20expectancy%20minimal&image_size=landscape_16_9)
-
-**🧩 Breakdowns by symbol, session, weekday, setup**
-
-![Breakdown tables](https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=dark%20trading%20report%20table%20breakdown%20by%20symbol%20session%20weekday%20setup%20gold%20highlights&image_size=landscape_16_9)
-
----
 
 ## Supported platforms & file formats
 
@@ -222,44 +205,4 @@ A few choices worth calling out:
 
 ---
 
-## Troubleshooting
 
-<details>
-<summary>“Could not find columns for: …”</summary>
-
-Your export probably uses very unusual column names. Open the CSV/HTML and check that it contains, at minimum, something that looks like an open time, symbol, buy/sell type, and profit. If you're stuck, open a clean sample from `sample_data/` and compare columns.
-</details>
-
-<details>
-<summary>“No valid closed trades were found in this … file”</summary>
-
-Make sure you're exporting the **closed trades / deals / history** view, not an open-positions report or an orders-only report.
-</details>
-
-<details>
-<summary>Report looks empty or charts don't load</summary>
-
-Re-run with `--input` pointing to a CSV/HTML that actually has rows. If the generated file has no charts when opened, make sure you opened `report.html` directly — the charts are embedded, so they always render if the file was built.
-</details>
-
-<details>
-<summary>I need my specific broker's format to work</summary>
-
-Drop a small sample export into the parser test set and add any missing aliases to the top of `parser.py`.
-</details>
-
----
-
-## Roadmap
-
-- [ ] CSV export of the summary + breakdowns (numbers only)
-- [ ] Multi-currency PnL normalization (convert wins/losses to account currency)
-- [ ] Risk-of-ruin / Monte Carlo simulation card
-- [ ] Save / compare two reports (last month vs this month)
-- [ ] Setup tag auto-cleaning (merge "scalp", "Scalp", "scalp-1" into one)
-
----
-
-## License
-
-Sample data and sample generators are included for demonstration. Use this tool on your own trading exports responsibly — past performance shown in any generated report is not a guarantee of future results.
