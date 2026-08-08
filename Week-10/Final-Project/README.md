@@ -1,67 +1,265 @@
 # Trade Performance Analyzer
 
-#### Video Demo: 
+![Project banner](https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=dark%20trading%20terminal%20dashboard%20with%20equity%20curve%20chart%20gold%20accents%20minimal%20clean&image_size=landscape_16_9)
 
-#### Description:
+> Turn messy MT5 / cTrader / Binance / TradingView trade exports into one beautiful, shareable HTML report — with one command.
 
-This is a command-line Python tool that reads your trading history (exported as a CSV or HTML file from platforms like MT5, cTrader, Binance, or TradingView) and turns it into a clean, visual HTML report showing how you're actually performing as a trader.
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo-red?logo=youtube&logoColor=white&style=for-the-badge)](#video-demo)
+[![Quickstart](https://img.shields.io/badge/%E2%9A%A1-Quickstart-10b981?style=for-the-badge)](#quickstart)
+[![Features](https://img.shields.io/badge/%E2%9C%A8-Features-3b82f6?style=for-the-badge)](#features)
+[![Code](https://img.shields.io/badge/%F0%9F%92%BB-Code-a855f7?style=for-the-badge)](#project-structure)
 
-Instead of manually calculating win rate, profit factor, or checking which setups work best, you just run one command and get a full report you can open in your browser.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=gold)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
+[![Dependencies](https://img.shields.io/badge/dependencies-pandas%20%7C%20plotly%20%7C%20jinja2%20%7C%20bs4-success)](./requirements.txt)
+![Input](https://img.shields.io/badge/input-CSV%20%2F%20HTML-orange)
+![Output](https://img.shields.io/badge/output-standalone%20HTML-important)
 
-## What it does
+---
 
-- Reads your trade history file (CSV or HTML)
-- Calculates key stats: win rate, profit factor, expectancy, average R:R, max drawdown, win/loss streaks
-- Breaks down your performance by:
-  - Trading session (Asia, London, NY)
-  - Symbol/instrument (e.g. NAS100, XAUUSD)
-  - Day of week
-  - Month
-  - Setup/strategy (based on whatever you wrote in the comment/notes field of each trade)
-- Generates one HTML report with charts and tables — no internet needed to view it
+## Video Demo
 
-## How to use it
+> 🎥 Link coming soon — drop the YouTube / Google Drive URL here.
 
-1. Install the required packages:
-   ```
-   pip install -r requirements.txt
-   ```
+---
 
-2. Run the analyzer on your trade history file:
-   ```
-   python analyzer.py --input your_file.csv
-   ```
-   or with an HTML file:
-   ```
-   python analyzer.py --input your_file.html
-   ```
+## Table of contents
 
-3. The report opens automatically in your browser. You can also find it saved at `output/report.html`.
+- [What problem it solves](#what-problem-it-solves)
+- [Features](#features)
+- [Quickstart](#quickstart)
+  - [1. Install dependencies](#1-install-dependencies)
+  - [2. Generate a report from your own file](#2-generate-a-report-from-your-own-file)
+  - [3. Try it on the sample data first](#3-try-it-on-the-sample-data-first)
+- [Command line options](#command-line-options)
+- [Example reports you'll get](#example-reports-youll-get)
+- [Supported platforms & file formats](#supported-platforms--file-formats)
+- [What the report includes](#what-the-report-includes)
+- [Project structure](#project-structure)
+- [How the pipeline works](#how-the-pipeline-works)
+- [Design decisions](#design-decisions)
+- [Troubleshooting](#troubleshooting)
+- [Roadmap](#roadmap)
+- [License](#license)
 
-4. Don't have your own data yet? Try it with the included sample:
-   ```
-   python analyzer.py --input sample_data/sample_trades.csv
-   ```
+---
+
+## What problem it solves
+
+Most traders have a folder full of raw CSV or HTML exports, plus a bunch of hand-maintained spreadsheets that go stale within a week. To answer even basic questions — _“What's my actual win rate after fees?”_, _“Which sessions really work for me?”_, _“Is setup A really worth the effort?”_ — you end up copy-pasting columns, reformatting timestamps, and second-guessing the math every time.
+
+**Trade Performance Analyzer** takes that raw export and turns it into a polished, browser-ready report in a single command. Zero spreadsheets, zero manual formulas, zero internet required once the report is generated.
+
+---
+
+## Features
+
+| Feature | What you get |
+|---|---|
+| ✅ Multi-platform parser | Reads MT4/MT5, cTrader, Binance, TradingView, and generic CSV/HTML exports |
+| ✅ Core metrics | Win rate, profit factor, expectancy, max drawdown, longest win/loss streaks |
+| ✅ Breakdowns | By session (Asia / London / NY), symbol, weekday, month, setup/strategy |
+| ✅ Visuals | Equity curve, win-rate bars, monthly PnL charts |
+| ✅ Standalone HTML | Report is a single file; charts embedded, works 100% offline |
+| ✅ Terminal-style UI | Dark background, monospace numbers, gold accents — looks like a real trading dashboard |
+| ✅ Friendly CLI | Plain-English errors instead of raw Python stack traces |
+| ✅ Auto-open in browser | Report opens as soon as it's built (toggle off with `--no-open`) |
+
+---
+
+## Quickstart
+
+### 1. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Generate a report from your own file
+
+```bash
+python analyzer.py --input your_export.csv
+python analyzer.py --input your_export.html
+python analyzer.py -i statement.csv -o output/my_report.html --no-open
+```
+
+### 3. Try it on the sample data first
+
+```bash
+python analyzer.py --input sample_data/sample_trades.csv
+python analyzer.py --input sample_data/other_platform_sample.csv
+python analyzer.py --input sample_data/sample_trades.html
+```
+
+The report is written to **`output/report.html`** by default and opens in your browser automatically.
+
+---
+
+## Command line options
+
+| Flag | Short | Default | What it does |
+|---|---|---|---|
+| `--input` | `-i` | *(required)* | Trade history file (`.csv` or `.html`) |
+| `--output` | `-o` | `output/report.html` | Where to write the final HTML report |
+| `--no-open` |  | off | Don't auto-open the report in your browser after generation |
+
+Example (Windows PowerShell):
+
+```powershell
+python analyzer.py `
+  --input "C:\Trading\monthly_report.csv" `
+  --output "C:\Trading\Reports\August.html" `
+  --no-open
+```
+
+---
+
+## Example reports you'll get
+
+**📊 Equity curve, win rate, and monthly performance**
+
+![Equity and stats dashboard](https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=trading%20dashboard%20dark%20equity%20curve%20line%20chart%20gold%20winrate%20bar%20chart%20clean%20UI&image_size=landscape_16_9)
+![Performance summary cards](https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=dark%20KPI%20cards%20showing%20win%20rate%20profit%20factor%20max%20drawdown%20expectancy%20minimal&image_size=landscape_16_9)
+
+**🧩 Breakdowns by symbol, session, weekday, setup**
+
+![Breakdown tables](https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=dark%20trading%20report%20table%20breakdown%20by%20symbol%20session%20weekday%20setup%20gold%20highlights&image_size=landscape_16_9)
+
+---
+
+## Supported platforms & file formats
+
+- **CSV or HTML** export
+- Columns auto-detected, so exact header names don't have to match
+- Recognized aliases include:
+  - `Profit` / `PnL` / `P&L` / `Realized PnL` / `Result`
+  - `Type` / `Side` / `Direction` + `buy`/`sell`/`long`/`short`
+  - `Symbol` / `Instrument` / `Pair` / `Ticker`
+  - `Open Time` / `Entry Time` / `Date` / `DateTime`
+  - `SL` / `TP` / `Commission` / `Swap` / `Comment`
+- Known to work with **MT4 / MT5, cTrader, Binance, TradingView, and generic broker exports**
+
+---
+
+## What the report includes
+
+At the top you get the **summary cards**:
+
+- Total trades
+- Net profit / loss
+- Win rate
+- Profit factor
+- Expectancy per trade
+- Average R:R (when SL/TP are present)
+- Max drawdown
+- Longest winning streak
+- Longest losing streak
+
+Then the breakdowns:
+
+1. **Equity curve** — running PnL over time
+2. **Trading session** — Asia / London / New York performance
+3. **Symbol / instrument** — which markets are working
+4. **Day of week** — see which days you actually trade well
+5. **Month by month** — seasonal and account-growth view
+6. **Setup / strategy** — grouped from the comment/notes field
+
+---
 
 ## Project structure
 
-```
-trade-analyzer/
-├── analyzer.py                # run this — the main command-line program
-├── trade_analyzer/
-│   ├── parser.py               # reads and cleans up the CSV/HTML file
-│   ├── metrics.py              # calculates win rate, drawdown, streaks, etc.
-│   ├── charts.py               # builds the charts
-│   ├── report.py               # puts it all together into one HTML file
-│   └── templates/               # the HTML/CSS design of the report
-├── sample_data/                 # example trade files to test with
-└── requirements.txt
+```text
+Week-10/Final-Project/
+├── analyzer.py                         # CLI entry point
+├── requirements.txt                    # pandas, plotly, bs4, jinja2, lxml
+├── sample_data/
+│   ├── generate_sample.py              # MT5-style synthetic data
+│   ├── generate_other_platform_sample.py
+│   ├── sample_trades.csv
+│   ├── sample_trades.html
+│   └── other_platform_sample.csv
+└── trade_analyzer/
+    ├── __init__.py
+    ├── parser.py                       # CSV + HTML normalizer (platform-agnostic)
+    ├── metrics.py                      # Win rate / PF / drawdown / breakdowns
+    ├── charts.py                       # Plotly charts with unified palette
+    ├── report.py                       # Renders Jinja template to final HTML
+    └── templates/
+        ├── report_template.html
+        └── style.css
 ```
 
-## What I built this with
+---
 
-- **Python** — the whole program
-- **pandas** — reading and organizing the trade data
-- **BeautifulSoup** — reading data out of HTML file exports
-- **Plotly** — the charts in the report
-- **Jinja2** — filling in the HTML report template with the calculated data
+## How the pipeline works
+
+```text
+analyzer.py  --input report.csv
+    │
+    ▼
+parser.py    ──► clean, normalized pandas DataFrame (same schema for any platform)
+    │
+    ▼
+metrics.py   ──► overview + breakdowns (session / symbol / weekday / month / setup)
+    │
+    ▼
+charts.py    ──► Plotly equity curve, win-rate bars, monthly chart
+    │
+    ▼
+report.py    ──► Jinja2 template → final standalone HTML → output/report.html
+```
+
+---
+
+## Design decisions
+
+A few choices worth calling out:
+
+1. **CLI over web app** — A trade report is one input → one file → one user. Adding login/auth/database would have added complexity without value, so the tool stays a single command.
+2. **Loose column matching** — The first parser version only accepted MT5's exact headers. Real exports vary wildly, so it now matches many aliases for the same underlying field and normalizes trade directions like `long`/`short`/`b`/`s` into canonical `buy`/`sell`.
+3. **Offline HTML** — The first version loaded Plotly from a CDN, which meant the report broke offline. The library code is now embedded into the HTML file itself, so a report can be opened or emailed without any internet.
+4. **Separate metrics from visuals** — `metrics.py` returns pure numbers and tables, `charts.py` returns chart objects, `report.py` arranges them. That makes it easy to verify calculations without staring at a rendered page.
+
+---
+
+## Troubleshooting
+
+<details>
+<summary>“Could not find columns for: …”</summary>
+
+Your export probably uses very unusual column names. Open the CSV/HTML and check that it contains, at minimum, something that looks like an open time, symbol, buy/sell type, and profit. If you're stuck, open a clean sample from `sample_data/` and compare columns.
+</details>
+
+<details>
+<summary>“No valid closed trades were found in this … file”</summary>
+
+Make sure you're exporting the **closed trades / deals / history** view, not an open-positions report or an orders-only report.
+</details>
+
+<details>
+<summary>Report looks empty or charts don't load</summary>
+
+Re-run with `--input` pointing to a CSV/HTML that actually has rows. If the generated file has no charts when opened, make sure you opened `report.html` directly — the charts are embedded, so they always render if the file was built.
+</details>
+
+<details>
+<summary>I need my specific broker's format to work</summary>
+
+Drop a small sample export into the parser test set and add any missing aliases to the top of `parser.py`.
+</details>
+
+---
+
+## Roadmap
+
+- [ ] CSV export of the summary + breakdowns (numbers only)
+- [ ] Multi-currency PnL normalization (convert wins/losses to account currency)
+- [ ] Risk-of-ruin / Monte Carlo simulation card
+- [ ] Save / compare two reports (last month vs this month)
+- [ ] Setup tag auto-cleaning (merge "scalp", "Scalp", "scalp-1" into one)
+
+---
+
+## License
+
+Sample data and sample generators are included for demonstration. Use this tool on your own trading exports responsibly — past performance shown in any generated report is not a guarantee of future results.
