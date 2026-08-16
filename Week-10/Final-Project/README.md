@@ -1,23 +1,10 @@
 # Trade Performance Analyzer
 
-
-
-[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo-red?logo=youtube&logoColor=white&style=for-the-badge)](#video-demo)
-[![Quickstart](https://img.shields.io/badge/%E2%9A%A1-Quickstart-10b981?style=for-the-badge)](#quickstart)
-[![Features](https://img.shields.io/badge/%E2%9C%A8-Features-3b82f6?style=for-the-badge)](#features)
-[![Code](https://img.shields.io/badge/%F0%9F%92%BB-Code-a855f7?style=for-the-badge)](#project-structure)
-
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=gold)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
-[![Dependencies](https://img.shields.io/badge/dependencies-pandas%20%7C%20plotly%20%7C%20jinja2%20%7C%20bs4-success)](./requirements.txt)
-![Input](https://img.shields.io/badge/input-CSV%20%2F%20HTML-orange)
-![Output](https://img.shields.io/badge/output-standalone%20HTML-important)
-
 ---
 
 ## Video Demo
 
-> 🎥 Link coming soon — drop the YouTube / Google Drive URL here.
+> 🎥 https://youtu.be/LTSglfWG1-E
 
 ---
 
